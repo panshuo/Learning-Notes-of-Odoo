@@ -78,15 +78,22 @@ Odoo 开发指导建议关于 Model 的Python文件应该放在一个名字为 m
 `  active = fields.Boolean('Active?', default=True)`
 
 #### 添加菜单项目 (View Layer)
-待编辑
+视图层描述了用户界面。视图通过XML来定义， web客户端框架需要这些数据生成数据驱动型的网页视图。
+有一些菜单项目用来触发渲染视图的动作，例如 Users 菜单处理一个名字也叫 Users 的操作，会引发一系列的视图被渲染。
+可用的视图种类有 list 和 form，还有一个 search 视图用来实现过滤器选项。
+
+*定义用户界面( Views )的XML文件应该放置在模块目录下面的  views/ 子目录*
+
+
 
 #### 添加业务逻辑 (Business Logic Layer)
-为之前建立的数据Model类添加类方法，以便在前端界面按钮被点击的时候能被调用。首先需要引入Odoo的API
+为之前建立的数据Model类添加类方法，以便在前端界面按钮被点击的时候， Model 里的数据能被调用。首先需要引入Odoo的API
 
 `from odoo import models, fields, api`
 
-Toggle Done button 的操作很简单: 只要切换 Is Done? 这个标志的状态就行了。 使用 @api.multi 装饰器对表记录进行这个逻辑操作。
-在这里 self 代表了表中整个的数据集，我们需要遍历整个数据集中的每条记录：
+这个应用里 Toggle Done button 的逻辑很简单: 只要切换 Is Done? 这个标志的状态就行了。
+使用 @api.multi 装饰器定义一个类方法来对表记录进行这个逻辑操作。
+在这里给类方法传递的 self 对象代表了表中整个的数据集，我们需要遍历整个数据集中的每条记录：
 
 `@api.multi`
 
@@ -114,8 +121,8 @@ Toggle Done button 的操作很简单: 只要切换 Is Done? 这个标志的状�
 
 #### 添加访问安全保护
 安全保护信息需要提供一个数据文件给模块来导入到 ir.model.access Model
-将为 employee 组在这个 Model 上添加全部访问权限。基本所有用户都属于 Employee 这个最基本的访问控制组。
-这个数据文件将使用 CSV 文件格式，并命名为 security/ir.model.access.csv 内容略。
+这里将为 employee 组在这个 Model 上添加全部访问权限。基本所有用户都属于 Employee 这个最基本的访问控制组。
+这个数据文件将使用 CSV 文件格式，并命名为 security/ir.model.access.csv (内容略)。
 
 #### 行级别的访问安全保护
 
